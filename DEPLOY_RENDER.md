@@ -9,9 +9,11 @@ Create or select the GitHub repository, then push this project to its `main` bra
 In Render, choose **New > Blueprint** and select the repository. Render will read `render.yaml` and create:
 
 - `renttrack-api`, a Python web service
+- `renttrack-web`, an Expo web static site
 - `renttrack-db`, a PostgreSQL database
 
 The web service runs migrations during its build and starts with Uvicorn. The health check is `GET /health`.
+The frontend is built with `npm ci && npm run build` and served from `frontend/dist`.
 
 ## 3. Configure required environment variables
 
@@ -58,6 +60,23 @@ EXPO_PUBLIC_API_URL=https://your-api.onrender.com/api/v1
 ```
 
 For an Expo/EAS build, set the same URL in the relevant `eas.json` profile. Add the resulting frontend origin to the backend `CORS_ORIGINS` value.
+
+## 6. Move existing local database data
+
+The Render database is new; Docker volumes are not uploaded automatically. To copy the current local PostgreSQL data:
+
+```powershell
+docker compose up -d postgres
+docker exec renttrack-postgres pg_dump -U tms -d tms --format=custom --no-owner > renttrack.dump
+```
+
+Use the Render PostgreSQL **External Database URL** to restore the dump:
+
+```powershell
+pg_restore --clean --if-exists --no-owner --dbname "<RENDER_EXTERNAL_DATABASE_URL>" renttrack.dump
+```
+
+Do not commit `renttrack.dump`; it can contain private customer data.
 
 ## Notes
 

@@ -41,6 +41,19 @@ services:
       - key: RESEND_FROM_EMAIL
         sync: false
 
+  - type: web
+    name: renttrack-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    autoDeploy: true
+    envVars:
+      - key: EXPO_PUBLIC_USE_MOCK_API
+        value: "false"
+      - key: EXPO_PUBLIC_API_URL
+        value: https://renttrack-api.onrender.com/api/v1
+
 databases:
   - name: renttrack-db
     plan: free
