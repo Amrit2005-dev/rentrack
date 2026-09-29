@@ -1,0 +1,52 @@
+{
+  "name": "movexpress",
+  "version": "1.0.0",
+  "main": "expo-router/entry",
+  "dependencies": {
+    "@expo/vector-icons": "^15.0.2",
+    "@hookform/resolvers": "^5.9.1",
+    "@tanstack/react-query": "^5.101.4",
+    "axios": "^1.19.0",
+    "babel-preset-expo": "~57.0.0",
+    "dayjs": "^1.11.23",
+    "expo": "~57.0.15",
+    "expo-auth-session": "~57.0.12",
+    "expo-constants": "~57.0.13",
+    "expo-crypto": "~57.0.3",
+    "expo-document-picker": "~57.0.2",
+    "expo-linear-gradient": "~57.0.1",
+    "expo-linking": "~57.0.7",
+    "expo-router": "~57.0.15",
+    "expo-secure-store": "~57.0.1",
+    "expo-splash-screen": "~57.0.7",
+    "expo-status-bar": "~57.0.1",
+    "expo-web-browser": "~57.0.3",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-hook-form": "^7.85.0",
+    "react-native": "0.86.2",
+    "react-native-gesture-handler": "~2.32.0",
+    "react-native-reanimated": "4.5.1",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "~4.26.0",
+    "react-native-svg": "15.15.4",
+    "react-native-web": "^0.21.2",
+    "react-native-worklets": "0.10.1",
+    "zod": "^4.4.3",
+    "zustand": "^5.0.15"
+  },
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "build": "expo export -p web",
+    "lint": "prettier --check \"app/**/*.js\" \"src/**/*.js\"",
+    "format": "prettier --write \"app/**/*.js\" \"src/**/*.js\""
+  },
+  "private": true,
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "prettier": "^3.9.6"
+  }
+}

@@ -1,0 +1,50 @@
+# TMS Backend — requirements.txt
+# Module: Bootstrap | Path: requirements.txt
+
+# Core framework
+fastapi
+uvicorn[standard]
+
+# Database
+sqlalchemy[asyncio]
+asyncpg
+alembic
+
+# Pydantic (v2)
+pydantic
+pydantic-settings
+
+# Auth / Security
+python-jose[cryptography]
+passlib[bcrypt]
+
+# Redis
+redis[asyncio]
+
+# AWS S3-compatible storage
+boto3
+
+# HTTP client (tests)
+httpx
+
+# File uploads
+python-multipart
+
+# PDF generation (WeasyPrint — HTML-to-PDF)
+weasyprint
+
+# Scheduling (quotation expiry cron)
+apscheduler
+
+# SMS
+twilio
+
+# Email (quotation sharing)
+fastapi-mail
+
+# Dev / Testing
+pytest
+pytest-asyncio
+pytest-cov
+fakeredis[aioredis]
+aiosqlite

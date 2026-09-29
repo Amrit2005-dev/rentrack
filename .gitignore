@@ -1,0 +1,63 @@
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python artifacts & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Testing & QA (excluded per repository guidelines)
+tests/
+pytest.ini
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+docker-compose.test.yml
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Agent & workspace metadata
+.agents/
+.claude/
+*.log
+
+# Frontend build & cache artifacts
+frontend/node_modules/
+frontend/.expo/
+frontend/dist/
+frontend/web-build/
+frontend/test-results/
+frontend/playwright-report/
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Local file storage (STORAGE_BACKEND=local)
+uploads/
