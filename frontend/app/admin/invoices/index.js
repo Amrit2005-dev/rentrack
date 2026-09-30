@@ -34,6 +34,7 @@ export default function InvoicesScreen() {
   const invoices = useInvoices({
     page_size: 200,
   });
+  const isLoading = invoices.isLoading && invoices.fetchStatus !== 'idle';
   const rows = invoices.data?.items ?? [];
   const counts = useMemo(
     () =>
@@ -126,12 +127,12 @@ export default function InvoicesScreen() {
         }
       />
 
-      {invoices.isLoading ? <SkeletonList count={4} /> : null}
+      {isLoading ? <SkeletonList count={4} /> : null}
       {invoices.error ? (
         <ErrorState error={invoices.error} onRetry={invoices.refetch} />
       ) : null}
 
-      {!invoices.isLoading && !invoices.error ? (
+      {!isLoading && !invoices.error ? (
         <>
           <StatRow>
             <StatTile

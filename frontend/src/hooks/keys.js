@@ -75,4 +75,11 @@ export const qk = {
     all: ['users'],
     list: (params = {}) => ['users', 'list', params],
   },
+  dashboard: {
+    all: ['dashboard'],
+    stats: ['dashboard', 'stats'],
+  },
+  organizations: {
+    all: ['organizations'],
+  },
 };

@@ -17,9 +17,10 @@ export function useChallans(
 ) {
   const scopedCompanyId = useScopedCompanyId();
   const { canManageChallans } = usePermissions();
+  const scopedParams = scopedCompanyId ? { ...params, org_id: scopedCompanyId } : params;
   return useQuery({
-    queryKey: qk.challans.list(params),
-    queryFn: () => challansApi.list(params),
+    queryKey: qk.challans.list(scopedParams),
+    queryFn: () => challansApi.list(scopedParams),
     select: (page) => scopePage(page, scopedCompanyId),
     enabled: canManageChallans,
   });
@@ -66,9 +67,10 @@ export function useQuotations(
 ) {
   const scopedCompanyId = useScopedCompanyId();
   const { canManageBilling } = usePermissions();
+  const scopedParams = scopedCompanyId ? { ...params, org_id: scopedCompanyId } : params;
   return useQuery({
-    queryKey: qk.quotations.list(params),
-    queryFn: () => quotationsApi.list(params),
+    queryKey: qk.quotations.list(scopedParams),
+    queryFn: () => quotationsApi.list(scopedParams),
     select: (page) => scopePage(page, scopedCompanyId),
     enabled: canManageBilling,
   });
@@ -113,9 +115,10 @@ export function useInvoices(
 ) {
   const scopedCompanyId = useScopedCompanyId();
   const { canManageBilling } = usePermissions();
+  const scopedParams = scopedCompanyId ? { ...params, org_id: scopedCompanyId } : params;
   return useQuery({
-    queryKey: qk.invoices.list(params),
-    queryFn: () => invoicesApi.list(params),
+    queryKey: qk.invoices.list(scopedParams),
+    queryFn: () => invoicesApi.list(scopedParams),
     select: (page) => scopePage(page, scopedCompanyId),
     enabled: canManageBilling,
   });
@@ -195,9 +198,10 @@ export function useTdsRecords(
 ) {
   const scopedCompanyId = useScopedCompanyId();
   const { canManageBilling } = usePermissions();
+  const scopedParams = scopedCompanyId ? { ...params, org_id: scopedCompanyId } : params;
   return useQuery({
-    queryKey: qk.tds.list(params),
-    queryFn: () => tdsApi.list(params),
+    queryKey: qk.tds.list(scopedParams),
+    queryFn: () => tdsApi.list(scopedParams),
     select: (page) => scopePage(page, scopedCompanyId),
     enabled: canManageBilling,
   });

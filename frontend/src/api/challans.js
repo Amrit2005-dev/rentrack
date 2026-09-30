@@ -1,10 +1,9 @@
 import { cleanParams, http } from './client';
-import { adaptChallan, toChallanStatusPayload, toPage } from './adapters';
+import { adaptChallan, adaptPage, toChallanStatusPayload } from './adapters';
 
 /**
  * GET /challans/ filters by `org_id` and `client_id` only and returns a bare
- * array, so it is wrapped in the paginated envelope the screens expect, and
- * adaptChallan translates the field names and the uppercase status enum.
+ * array or paginated envelope, so it is wrapped safely with adaptPage.
  */
 export const challansApi = {
   list: (params = {}) =>
@@ -12,7 +11,7 @@ export const challansApi = {
       .get('/challans/', {
         params: cleanParams(params),
       })
-      .then((r) => toPage((r.data ?? []).map(adaptChallan), params)),
+      .then((r) => adaptPage(r.data, adaptChallan, params)),
   get: (id) => http.get(`/challans/${id}`).then((r) => adaptChallan(r.data)),
   /** Running hours per vehicle for a day, compiled into one challan. */
   create: (body, params) =>

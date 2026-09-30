@@ -1,13 +1,9 @@
 import { cleanParams, http } from './client';
-import { adaptInvoice, toPage } from './adapters';
+import { adaptInvoice, adaptPage } from './adapters';
 
 /**
- * Invoices are mounted at /billing on this API, not /invoices — /invoices/
- * answered 404, which is why every billing screen read empty.
- *
- * GET /billing/ filters by `org_id` and `client_id` only (no page/page_size)
- * and returns a bare array, so it is wrapped in the paginated envelope the
- * screens expect. Status filtering stays local.
+ * Invoices are mounted at /billing on this API, not /invoices.
+ * GET /billing/ returns an envelope or list, processed safely with adaptPage.
  */
 export const invoicesApi = {
   list: (params = {}) =>
@@ -15,7 +11,7 @@ export const invoicesApi = {
       .get('/billing/', {
         params: cleanParams(params),
       })
-      .then((r) => toPage((r.data ?? []).map(adaptInvoice), params)),
+      .then((r) => adaptPage(r.data, adaptInvoice, params)),
   get: (id) => http.get(`/billing/${id}`).then((r) => adaptInvoice(r.data)),
   create: (body, params) =>
     http

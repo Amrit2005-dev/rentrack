@@ -32,6 +32,7 @@ export default function ChallansScreen() {
   const challans = useChallans({
     page_size: 200,
   });
+  const isLoading = challans.isLoading && challans.fetchStatus !== 'idle';
   const rows = challans.data?.items ?? [];
   const today = dayjs().format('YYYY-MM-DD');
   const raisedToday = rows.some((challan) => challan.challan_date === today);
@@ -119,12 +120,12 @@ export default function ChallansScreen() {
         }
       />
 
-      {challans.isLoading ? <SkeletonList count={4} /> : null}
+      {isLoading ? <SkeletonList count={4} /> : null}
       {challans.error ? (
         <ErrorState error={challans.error} onRetry={challans.refetch} />
       ) : null}
 
-      {!challans.isLoading && !challans.error ? (
+      {!isLoading && !challans.error ? (
         <>
           {/* SRS: "Create Challan for Today" reminder so no working day is missed. */}
           {!raisedToday ? (

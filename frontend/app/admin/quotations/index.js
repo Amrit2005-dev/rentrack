@@ -33,6 +33,7 @@ export default function QuotationsScreen() {
   const quotations = useQuotations({
     page_size: 200,
   });
+  const isLoading = quotations.isLoading && quotations.fetchStatus !== 'idle';
   const rows = quotations.data?.items ?? [];
   const counts = useMemo(
     () =>
@@ -109,12 +110,12 @@ export default function QuotationsScreen() {
         }
       />
 
-      {quotations.isLoading ? <SkeletonList count={4} /> : null}
+      {isLoading ? <SkeletonList count={4} /> : null}
       {quotations.error ? (
         <ErrorState error={quotations.error} onRetry={quotations.refetch} />
       ) : null}
 
-      {!quotations.isLoading && !quotations.error ? (
+      {!isLoading && !quotations.error ? (
         <>
           <StatRow>
             <StatTile

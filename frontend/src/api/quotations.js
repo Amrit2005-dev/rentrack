@@ -1,18 +1,13 @@
 import { cleanParams, http } from './client';
-import { toPage } from './adapters';
+import { adaptPage } from './adapters';
 
-/**
- * GET /quotations/ returns a bare array and takes no page/page_size, so it is
- * wrapped in the paginated envelope and status filtering stays local.
- * QuotationStatus is lowercase on this API (draft|sent|accepted|rejected|expired).
- */
 export const quotationsApi = {
   list: (params = {}) =>
     http
       .get('/quotations/', {
         params: cleanParams(params),
       })
-      .then((r) => toPage(r.data, params)),
+      .then((r) => adaptPage(r.data, null, params)),
   get: (id) => http.get(`/quotations/${id}`).then((r) => r.data),
   create: (body, params) =>
     http

@@ -124,7 +124,7 @@ export function useAdminNavigation() {
         key: 'fleet',
         label: 'Fleet',
         icon: 'cube-outline',
-        visible: canViewResources && companyWorkAllowed,
+        visible: canViewResources,
         children: [
           { key: 'vehicles', label: 'Vehicles', href: '/admin/vehicles', visible: true },
           { key: 'drivers', label: 'Drivers', href: '/admin/drivers', visible: true },
@@ -134,7 +134,7 @@ export function useAdminNavigation() {
         key: 'trips',
         label: 'Trips',
         icon: 'map-outline',
-        visible: canViewResources && companyWorkAllowed,
+        visible: canViewResources,
         children: [
           { key: 'trips-all', label: 'All Trips', href: '/admin/trips', visible: true },
           {
@@ -149,7 +149,7 @@ export function useAdminNavigation() {
         key: 'challans',
         label: 'Challans',
         icon: 'receipt-outline',
-        visible: canManageChallans && companyWorkAllowed,
+        visible: canManageChallans,
         children: [
           {
             key: 'challans-all',
@@ -176,7 +176,7 @@ export function useAdminNavigation() {
         key: 'billing',
         label: 'Billing',
         icon: 'card-outline',
-        visible: canManageBilling && companyWorkAllowed,
+        visible: canManageBilling,
         children: [
           {
             key: 'quotations',
@@ -227,14 +227,14 @@ export function useAdminNavigation() {
         label: 'Reports',
         icon: 'bar-chart-outline',
         href: '/admin/reports',
-        visible: canManageBilling && companyWorkAllowed,
+        visible: canManageBilling,
       },
       {
         key: 'users',
         label: 'Users',
         icon: 'people-outline',
         href: '/admin/users',
-        visible: canManageUsers && companyWorkAllowed,
+        visible: canManageUsers,
       },
       {
         key: 'notifications',

@@ -13,9 +13,10 @@ export function useUsers(
 ) {
   const scopedCompanyId = useScopedCompanyId();
   const { canManageUsers } = usePermissions();
+  const scopedParams = scopedCompanyId ? { ...params, org_id: scopedCompanyId } : params;
   return useQuery({
-    queryKey: qk.users.list(params),
-    queryFn: () => usersApi.list(params),
+    queryKey: qk.users.list(scopedParams),
+    queryFn: () => usersApi.list(scopedParams),
     select: (page) => scopePage(page, scopedCompanyId),
     enabled: canManageUsers,
   });
@@ -68,6 +69,12 @@ function useRegistrationInvalidator() {
     });
     void qc.invalidateQueries({
       queryKey: qk.users.all,
+    });
+    void qc.invalidateQueries({
+      queryKey: qk.dashboard.all,
+    });
+    void qc.invalidateQueries({
+      queryKey: qk.organizations.all,
     });
   };
 }

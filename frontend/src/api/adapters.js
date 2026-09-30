@@ -38,6 +38,24 @@ export function toPage(rows, params = {}) {
   };
 }
 
+/** Adapts items whether backend returns a bare array or a paginated envelope object ({ items, total, ... }). */
+export function adaptPage(data, adapter = null, params = {}) {
+  if (!data) return toPage([], params);
+  if (Array.isArray(data)) {
+    const items = adapter ? data.map(adapter) : data;
+    return toPage(items, params);
+  }
+  if (typeof data === 'object' && 'items' in data && Array.isArray(data.items)) {
+    const items = adapter ? data.items.map(adapter) : data.items;
+    return {
+      ...data,
+      items,
+      total: data.total ?? items.length,
+    };
+  }
+  return toPage([], params);
+}
+
 const lower = (value) => (value == null ? null : String(value).toLowerCase());
 
 /* ── Fleet ──────────────────────────────────────────────── */
@@ -185,7 +203,7 @@ export const isCreditEntry = (entryType) => !DEBIT_TYPES.has(lower(entryType));
  * lists them. Also maps `note`/`reference_no` onto the names the screen reads.
  */
 export function adaptLedger(rows) {
-  const entries = Array.isArray(rows) ? rows : [];
+  const entries = Array.isArray(rows) ? rows : (rows?.items ?? []);
   const oldestFirst = [...entries].sort(
     (a, b) => new Date(a.entry_date ?? 0) - new Date(b.entry_date ?? 0),
   );

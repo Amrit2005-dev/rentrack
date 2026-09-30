@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { dashboardApi } from '@/api/dashboard';
+import { qk } from './keys';
 
 /**
  * Platform-wide business overview.
@@ -10,7 +11,7 @@ import { dashboardApi } from '@/api/dashboard';
  */
 export const useDashboardStats = (enabled = true) =>
   useQuery({
-    queryKey: ['dashboard', 'stats'],
+    queryKey: qk.dashboard.stats,
     queryFn: dashboardApi.stats,
     enabled,
   });
