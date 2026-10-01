@@ -22,7 +22,6 @@ class Settings(BaseSettings):
 
     # ── Redis ─────────────────────────────────────────────────────────────────
     REDIS_URL: str = "redis://localhost:6379/0"
-
     # ── JWT / Auth ─────────────────────────────────────────────────────────────
     SECRET_KEY: str
     JWT_ALGORITHM: str = "HS256"
@@ -31,8 +30,8 @@ class Settings(BaseSettings):
 
     # ── OTP ───────────────────────────────────────────────────────────────────
     OTP_EXPIRE_MINUTES: int = 10
-    OTP_MAX_ATTEMPTS: int = 5
-    OTP_RATE_LIMIT_COUNT: int = 3
+    OTP_MAX_ATTEMPTS: int = 10
+    OTP_RATE_LIMIT_COUNT: int = 5
     OTP_RATE_LIMIT_WINDOW_MINUTES: int = 10
     OTP_LOCKOUT_MINUTES: int = 30
     SHOW_TEST_OTP: bool = False
