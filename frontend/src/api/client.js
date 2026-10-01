@@ -12,8 +12,12 @@ import axios from 'axios';
  * silent refresh — see setSessionLostHandler.
  */
 
-export const API_BASE_URL =
+const configuredApiUrl =
   process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8000/api/v1';
+const normalizedApiUrl = configuredApiUrl.replace(/\/+$/, '');
+export const API_BASE_URL = normalizedApiUrl.endsWith('/api/v1')
+  ? normalizedApiUrl
+  : `${normalizedApiUrl}/api/v1`;
 export class ApiError extends Error {
   status;
   fieldErrors;
