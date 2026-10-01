@@ -11,6 +11,7 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 
 
 # revision identifiers, used by Alembic.
@@ -146,7 +147,21 @@ def upgrade() -> None:
     op.drop_constraint(op.f('companies_name_key'), 'companies', type_='unique')
     op.drop_index(op.f('ix_companies_name'), table_name='companies')
     op.create_index(op.f('ix_companies_name'), 'companies', ['name'], unique=True)
-    op.add_column('drivers', sa.Column('status', sa.Enum('pending', 'approved', 'rejected', 'inactive', name='driver_status_enum'), server_default='pending', nullable=False))
+    op.execute("""
+        DO $$
+        BEGIN
+            CREATE TYPE driver_status_enum AS ENUM ('pending', 'approved', 'rejected', 'inactive');
+        EXCEPTION
+            WHEN duplicate_object THEN NULL;
+        END
+        $$;
+    """)
+    driver_status = postgresql.ENUM(
+        'pending', 'approved', 'rejected', 'inactive',
+        name='driver_status_enum',
+        create_type=False,
+    )
+    op.add_column('drivers', sa.Column('status', driver_status, server_default='pending', nullable=False))
     op.drop_constraint(op.f('drivers_license_number_key'), 'drivers', type_='unique')
     op.drop_index(op.f('ix_drivers_license_number'), table_name='drivers')
     op.create_index(op.f('ix_drivers_license_number'), 'drivers', ['license_number'], unique=True)
