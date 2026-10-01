@@ -41,6 +41,7 @@ twilio
 
 # Email (quotation sharing)
 fastapi-mail
+resend
 
 # Dev / Testing
 pytest
