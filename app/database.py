@@ -13,16 +13,26 @@ from sqlalchemy.ext.asyncio import (
 )
 from pydantic_core import SchemaSerializer, core_schema
 from sqlalchemy import inspect
+from sqlalchemy.engine import make_url
 from sqlalchemy.orm import DeclarativeBase
 
 from app.config import settings
 
+def normalize_async_database_url(url: str) -> str:
+    parsed_url = make_url(url)
+    if parsed_url.drivername in {"postgres", "postgresql"}:
+        parsed_url = parsed_url.set(drivername="postgresql+asyncpg")
+
+    query = dict(parsed_url.query)
+    sslmode = query.pop("sslmode", None)
+    if sslmode and "ssl" not in query:
+        query["ssl"] = sslmode
+    query.pop("channel_binding", None)
+    return parsed_url.set(query=query).render_as_string(hide_password=False)
+
+
 # ─── Engine ───────────────────────────────────────────────────────────────────
-database_url = settings.DATABASE_URL
-if database_url.startswith("postgres://"):
-    database_url = database_url.replace("postgres://", "postgresql+asyncpg://", 1)
-elif database_url.startswith("postgresql://"):
-    database_url = database_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+database_url = normalize_async_database_url(settings.DATABASE_URL)
 
 engine = create_async_engine(
     database_url,

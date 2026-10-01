@@ -13,7 +13,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from app.config import settings
-from app.database import Base
+from app.database import Base, normalize_async_database_url
 
 # Import all models so Alembic autogenerate can see them
 import app.models  # noqa: F401
@@ -21,8 +21,9 @@ import app.models  # noqa: F401
 # ─── Alembic Config ───────────────────────────────────────────────────────────
 config = context.config
 
-# Override the sqlalchemy.url from alembic.ini with the value from settings
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+# Override the sqlalchemy.url from alembic.ini with the async driver URL.
+database_url = normalize_async_database_url(settings.DATABASE_URL)
+config.set_main_option("sqlalchemy.url", database_url.replace("%", "%%"))
 
 # Interpret the config file for Python logging
 if config.config_file_name is not None:
